@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jean Wally | Consultor de Investimentos — Pesquisa Confidencial</title>
+  
+  <!-- Google Fonts: Outfit (Titulos modernos estilo Apple/XP) e Inter (Leitura limpa) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tabler Icons para ícones minimalistas e elegantes -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+  
+  <style>
+    :root {
+      --bg-pure: #000000;
+      --bg-surface: #0a0a0c;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --bg-card-hover: rgba(255, 255, 255, 0.08);
+      --bg-card-selected: rgba(255, 255, 255, 0.14);
+      
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(255, 255, 255, 0.3);
+      --border-active: rgba(255, 255, 255, 0.9);
+      
+      --text-main: #ffffff;
+      --text-muted: #a1a1aa;
+      --text-dim: #52525b;
+      
+      --accent-white: #ffffff;
+      --accent-black: #000000;
+      
+      --glow-subtle: 0 0 30px rgba(255, 255, 255, 0.06);
+      --glow-active: 0 0 35px rgba(255, 255, 255, 0.18);
+      
+      --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-pure);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    /* --- NAVEGAÇÃO / HEADER SUPERIOR --- */
+    .top-nav {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .brand-tag {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      .top-nav { padding: 18px 20px; flex-direction: column; gap: 12px; }
+    }
+
+    .security-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: 100px;
+      backdrop-filter: blur(10px);
+    }
+
+    .security-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 8px #ffffff;
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* --- CONTAINER PRINCIPAL DO APP --- */
+    .app-container {
+      flex: 1;
+      width: 100%;
+      max-width: 880px;
+      margin: 40px auto;
+      padding: 0 24px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Transição suave para todas as telas */
+    .screen {
+      display: none;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .screen.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- TELA 1: INTRO & BIO DE BOAS-VINDAS --- */
+    .intro-hero {
+      text-align: center;
+      padding: 20px 0 40px;
+    }
+
+    .intro-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      padding: 4px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .intro-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      color: #ffffff;
+    }
+
+    .intro-title span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .intro-subtitle {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* Pílulas de Metadados */
+    .meta-pills {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 44px;
+    }
+
+    .meta-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 8px 16px;
+      border-radius: 100px;
+    }
+
+    .meta-pill i {
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    /* Botão Principal Estilo Apple */
+    .btn-apple-primary {
+      background: #ffffff;
+      color: #000000;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 18px 46px;
+      border-radius: 100px;
+      border: 1px solid #ffffff;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-apple-primary:hover:not(:disabled) {
+      transform: scale(1.03);
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.35);
+      background: #f4f4f5;
+    }
+
+    .btn-apple-primary:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    .btn-apple-primary:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    /* --- BIO DO CONSULTOR (BOAS-VINDAS) --- */
+    .bio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 36px;
+      margin-top: 50px;
+      text-align: left;
+      position: relative;
+      backdrop-filter: blur(20px);
+    }
+
+    @media (max-width: 600px) {
+      .bio-card { padding: 24px; }
+    }
+
+    .bio-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .bio-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.03) 100%);
+      border: 1px solid rgba(255,255,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .bio-title-wrap h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .bio-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .bio-badge {
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .bio-content p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .bio-content p:last-child {
+      margin-bottom: 0;
+    }
+
+    .bio-signature {
+      margin-top: 20px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: #ffffff;
+      font-size: 15px;
+    }
+
+    /* --- TELA 2: QUESTIONÁRIO (UI QUIZ ESTILO APPLE / XP) --- */
+    .quiz-card {
+      background: rgba(10, 10, 12, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 40px;
+      backdrop-filter: blur(25px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--glow-subtle);
+      position: relative;
+    }
+
+    @media (max-width: 600px) {
+      .quiz-card { padding: 24px; border-radius: 20px; }
+    }
+
+    /* Cabeçalho do Quiz com Barra de Progresso */
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 20px;
+    }
+
+    .progress-container {
+      flex: 1;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #ffffff;
+      width: 0%;
+      border-radius: 100px;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 10px #ffffff;
+    }
+
+    .step-counter {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .category-badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: #ffffff;
+      color: #000000;
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+
+    /* Pergunta e Dica */
+    .question-title {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3.5vw, 30px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .question-hint {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      font-weight: 300;
+    }
+
+    /* Lista de Opções (Single Choice) */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 18px 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: left;
+    }
+
+    .option-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      color: #ffffff;
+      transform: translateX(6px);
+    }
+
+    .option-card.selected {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: #ffffff;
+      color: #ffffff;
+      font-weight: 500;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .option-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .option-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .option-card.selected .option-radio {
+      border-color: #ffffff;
+      background: #ffffff;
+    }
+
+    .option-radio::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #000000;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.2s ease;
+    }
+
+    .option-card.selected .option-radio::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .option-arrow {
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.25s ease;
+      color: #ffffff;
+    }
+
+    .option-card:hover .option-arrow,
+    .option-card.selected .option-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Escala 1 a 10 */
+    .scale-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 650px) {
+      .scale-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+
+    .scale-btn {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scale-btn:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .scale-btn.selected {
+      background: #ffffff;
+      border-color: #ffffff;
+      color: #000000;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 0 4px;
+    }
+
+    /* Textarea e Inputs */
+    .quiz-textarea, .quiz-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      padding: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-textarea {
+      resize: none;
+      line-height: 1.6;
+      min-height: 120px;
+    }
+
+    .quiz-input {
+      height: 54px;
+    }
+
+    .quiz-textarea:focus, .quiz-input:focus {
+      outline: none;
+      border-color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .quiz-textarea::placeholder, .quiz-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Rodapé do Quiz */
+    .quiz-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-back {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      padding: 12px 20px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-back:hover:not(:disabled) {
+      border-color: #ffffff;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-back:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+    }
+
+    .btn-next {
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 100px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-next:hover:not(:disabled) {
+      transform: translateX(3px);
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+      background: #f4f4f5;
+    }
+
+    .btn-next:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .keyboard-hint {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .keyboard-hint kbd {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-family: monospace;
+      font-size: 10px;
+    }
+
+    /* --- TELA 3 & 5: CONCLUSÃO E AGRADECIMENTO --- */
+    .done-wrap {
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .done-icon-box {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      box-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
+      animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .done-icon-box i {
+      font-size: 36px;
+      color: #ffffff;
+    }
+
+    .done-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .done-text {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+
+    /* --- TELA 4: NPS INTERATIVO & INDICAÇÃO --- */
+    .nps-action-box {
+      margin-top: 32px;
+      padding: 28px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      animation: fadeInSlideUp 0.4s ease;
+      text-align: left;
+    }
+
+    @keyframes fadeInSlideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .checkbox-wrap input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #ffffff;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .referral-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .referral-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .referral-grid { grid-template-columns: 1fr; }
+    }
+
+    /* --- MODAL DE PREVIEW DE WHATSAPP --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(15px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: #0a0a0c;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .whatsapp-preview-card {
+      background: #111b18;
+      border: 1px solid rgba(29, 158, 117, 0.3);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 20px;
+      text-align: left;
+      position: relative;
+    }
+
+    .whatsapp-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .whatsapp-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #1D9E75;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .whatsapp-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .whatsapp-time {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: right;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGAÇÃO SUPERIOR -->
+  <header class="top-nav">
+    <div class="brand-area">
+      <div class="brand-logo">Jean Wally</div>
+      <div class="brand-divider"></div>
+      <div class="brand-tag">Consultor de Investimentos</div>
+    </div>
+    <div class="security-badge">
+      <div class="security-dot"></div>
+      <span>Ambiente Criptografado & Confidencial</span>
+    </div>
+  </header>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="app-container">
+
+    <!-- TELA 1: INTRO / BOAS-VINDAS & BIOGRAFIA -->
+    <section id="screenIntro" class="screen active">
+      <div class="intro-hero">
+        <div class="intro-eyebrow">Pesquisa de Satisfação</div>
+        <h1 class="intro-title">Sua opinião molda<br><span>a excelência do nosso trabalho.</span></h1>
+        <p class="intro-subtitle">
+          Leva menos de 3 minutos. Sem certo ou errado — um questionário desenhado com precisão para entendermos como personalizar ainda mais a gestão e o acompanhamento do seu patrimônio.
+        </p>
+
+        <div class="meta-pills">
+          <div class="meta-pill"><i class="ti ti-clock"></i> Cerca de 3 minutos</div>
+          <div class="meta-pill"><i class="ti ti-shield-lock"></i> 100% Confidencial</div>
+          <div class="meta-pill"><i class="ti ti-sparkles"></i> Atendimento Personalizado</div>
+        </div>
+
+        <button class="btn-apple-primary" onclick="startQuiz()">
+          <span>Iniciar Pesquisa</span>
+          <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Bio do Consultor (Apresentação Institucional de Alto Padrão) -->
+      <div class="bio-card">
+        <div class="bio-header">
+          <div class="bio-avatar">JW</div>
+          <div class="bio-title-wrap">
+            <h3>Sobre o seu Consultor</h3>
+            <div class="bio-badges">
+              <span class="bio-badge">Especialista em Investimentos ANBIMA (CEA)</span>
+              <span class="bio-badge">Credenciado ANCORD</span>
+              <span class="bio-badge">Ciências Econômicas</span>
+            </div>
+          </div>
+        </div>
+        <div class="bio-content">
+          <p><strong>Profissional dedicado e apaixonado por fazer a diferença na vida das pessoas.</strong> Meu foco principal é oferecer soluções personalizadas e estratégicas para atender às necessidades financeiras de meus clientes, sejam eles pessoas físicas ou jurídicas.</p>
+          <p>Graduado em Ciências Econômicas, certificado e credenciado ANCORD e Especialista em Investimentos certificado pela ANBIMA, possuo uma sólida formação acadêmica aliada à experiência prática, o que me permite uma visão abrangente e aprofundada do mercado.</p>
+          <p>Comunicativo por natureza, tenho facilidade em estabelecer conexões significativas com meus clientes, compreendendo suas metas e objetivos financeiros de forma precisa. Além disso, minha capacidade analítica e habilidades de negociação me permitem identificar oportunidades e oferecer as melhores opções de investimento, sempre buscando maximizar os resultados e preservar o perfil de cada cliente.</p>
+          <p>Ao longo da minha carreira, acumulei experiência em diversas áreas, incluindo atendimento, prospecção e gestão de carteira de investimentos, com foco em clientes de alta renda. Minha carteira de clientes se estende por várias cidades do estado e além, refletindo a confiança e o relacionamento sólido que construí ao longo dos anos.</p>
+          <p>Estou constantemente me atualizando e aprimorando minhas habilidades para oferecer o melhor serviço possível aos meus clientes. Minha dedicação em estudar diariamente e acompanhar as tendências do mercado financeiro é um reflexo do meu compromisso em gerar valor e promover o sucesso financeiro daqueles que confiam em mim.</p>
+          <p>Se você está em busca de um parceiro confiável e comprometido para auxiliá-lo em suas decisões financeiras, estou aqui para oferecer meu conhecimento e expertise. Entre em contato e juntos podemos traçar um caminho rumo ao sucesso financeiro.</p>
+        </div>
+        <div class="bio-signature">Jean Wally da Silva, CEA.</div>
+      </div>
+    </section>
+
+    <!-- TELA 2: QUESTIONÁRIO (QUIZ) -->
+    <section id="screenQuiz" class="screen">
+      <div class="quiz-card">
+        
+        <div class="quiz-header">
+          <span class="step-counter" id="stepLabel">01 / 09</span>
+          <div class="progress-container">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+          </div>
+          <span class="category-badge" id="catBadge">Identificação</span>
+        </div>
+
+        <h2 class="question-title" id="qTitle">Qual é o seu nome e sobrenome?</h2>
+        <p class="question-hint" id="qHint">Para personalizarmos a análise da sua carteira e atendimento.</p>
+
+        <div id="qOptions"></div>
+
+        <div class="quiz-footer">
+          <button class="btn-back" id="btnBack" onclick="prevQ()">
+            <i class="ti ti-arrow-left"></i> Voltar
+          </button>
+          <button class="btn-next" id="btnNext" onclick="nextQ()">
+            <span>Próxima Pergunta</span>
+            <i class="ti ti-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="keyboard-hint">
+          Dica rápida: Pressione os números <kbd>1</kbd>–<kbd>5</kbd> ou <kbd>Enter ↵</kbd> no teclado para avançar
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TELA 3: CONCLUÍDO (INTERMEDIÁRIO) -->
+    <section id="screenDone" class="screen">
+      <div class="quiz-card done-wrap">
+        <div class="done-icon-box">
+          <i class="ti ti-check"></i>
+        </div>
+        <h2 class="done-title">Obrigado pela sua confiança!</h2>
+        <p class="done-text">
+          Suas respostas chegaram com segurança. Vou analisar cada detalhe com cuidado e trarei insights personalizados para a nossa próxima conversa.
+        </p>
+        <button class="btn-apple-primary" onclick="showNps()">
+          <span>Uma última pergunta rápida</span>
+          <i class="ti ti-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- TELA 4: NPS & INDICAÇÃO -->
+    <section id="screenNps" class="screen">
+      <div class="quiz-card">
+        <div class="intro-eyebrow" style="margin-bottom: 12px;">Convite Especial</div>
+        <h2 class="question-title">Você indicaria meu trabalho a um amigo ou sócio?</h2>
+        <p class="question-hint">De 0 a 10, onde 10 significa "com certeza e sem hesitar".</p>
+
+        <div class="scale-grid" id="npsScale" style="margin-top: 24px;"></div>
+        <div class="scale-labels">
+          <span>0 — Jamais indicaria</span>
+          <span>10 — Com certeza indicaria</span>
+        </div>
+
+        <!-- Box dinâmico de feedback NPS & Indicação -->
+        <!-- Box dinâmico de feedback NPS -->
+        <div id="npsAction" class="nps-action-box" style="display: none;">
+          <div id="npsPromoterBox" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" style="font-size: 15px; color: #ffffff;">Fico muito feliz pela confiança! O que você mais valoriza em nossa assessoria?</label>
+              <textarea class="quiz-textarea" id="promoterFeedback" placeholder="Compartilhe seu depoimento sobre nossa estratégia, atendimento ou resultados..." style="min-height: 90px;"></textarea>
+              <label class="checkbox-wrap">
+                <input type="checkbox" id="authShareCheckbox" checked>
+                <span>Autorizo o compartilhamento deste depoimento em materiais de divulgação da assessoria.</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="npsPassiveBox" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" style="font-size: 15px; color: #ffffff;">Obrigado pela nota! O que eu poderia aprimorar para chegarmos no nível 10 na sua percepção?</label>
+              <textarea class="quiz-textarea" id="passiveFeedback" placeholder="Sua sugestão é fundamental para a nossa melhoria contínua..." style="min-height: 90px;"></textarea>
+            </div>
+          </div>
+
+          <div id="npsDetractorBox" style="display: none;">
+            <p style="font-size: 14px; color: var(--text-main); line-height: 1.6; margin-bottom: 6px;">
+              <strong>Agradeço muito a sua honestidade.</strong><br>Quero entender pessoalmente onde não atendemos plenamente a sua expectativa. Vou entrar em contato prioritário em breve para ajustarmos a nossa estratégia.
+            </p>
+          </div>
+
+          <button class="btn-apple-primary" style="width: 100%; justify-content: center; margin-top: 24px;" onclick="handleNpsNext()">
+            <span id="submitBtnText">Continuar</span>
+            <i class="ti ti-arrow-right" id="submitBtnIcon"></i>
+          </button>
+        </div>
+
+        <div class="quiz-footer">
+          <button class="btn-back" onclick="showScreen('screenDone')">
+            <i class="ti ti-arrow-left"></i> Voltar
+          </button>
+          <button class="btn-next" onclick="handleNpsNext()">
+            <span id="npsFooterBtnText">Continuar</span>
+            <i class="ti ti-arrow-right" id="npsFooterBtnIcon"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA 4.5: INDICAÇÃO (Apenas quando nota for de 7 a 10) -->
+    <section id="screenReferral" class="screen">
+      <div class="quiz-card">
+        <div class="intro-eyebrow" style="margin-bottom: 12px;">Convite Especial</div>
+        <h2 class="question-title">Você gostaria de indicar um amigo ou sócio?</h2>
+        <p class="question-hint">Quem é a pessoa do seu círculo que se beneficiaria do mesmo padrão de acompanhamento financeiro e gestão patrimonial?</p>
+
+        <div class="options-list" style="margin-top: 28px; margin-bottom: 28px;">
+          <div class="option-card" id="refOptYes" onclick="toggleReferralBox(true)">
+            <div class="option-left">
+              <div class="option-radio"></div>
+              <span>Sim, quero indicar agora</span>
+            </div>
+            <i class="ti ti-arrow-down option-arrow"></i>
+          </div>
+          <div class="option-card" id="refOptNo" onclick="toggleReferralBox(false)">
+            <div class="option-left">
+              <div class="option-radio"></div>
+              <span>No momento não, podemos finalizar a pesquisa</span>
+            </div>
+            <i class="ti ti-check option-arrow"></i>
+          </div>
+        </div>
+
+        <div id="referralInputBox" style="display: none; padding: 24px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 18px; margin-bottom: 24px; animation: fadeInSlideUp 0.4s ease;">
+          <label class="form-label" style="font-size: 15px; color: #ffffff; margin-bottom: 12px; display: block;">Dados da Indicação</label>
+          <div class="referral-grid">
+            <input type="text" class="quiz-input" id="refName" placeholder="Nome e Sobrenome da indicação">
+            <input type="tel" class="quiz-input" id="refPhone" placeholder="Telefone / WhatsApp">
+          </div>
+        </div>
+
+        <div class="quiz-footer">
+          <button class="btn-back" onclick="showScreen('screenNps')">
+            <i class="ti ti-arrow-left"></i> Voltar
+          </button>
+          <button class="btn-next" id="btnSubmitRef" onclick="submitAnswersToGoogleSheets()">
+            <span id="submitBtnTextRef">Concluir e Enviar</span>
+            <i class="ti ti-check" id="submitBtnIconRef"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TELA 5: FINAL / AGRADECIMENTO -->
+    <section id="screenFim" class="screen">
+      <div class="quiz-card done-wrap">
+        <div class="done-icon-box" style="border-color: #1D9E75; background: rgba(29, 158, 117, 0.1);">
+          <i class="ti ti-award" style="color: #1D9E75;"></i>
+        </div>
+        <h2 class="done-title">Tudo certo!</h2>
+        <p class="done-text">
+          Sua participação foi registrada com sucesso no painel de relacionamento do Jean Wally. Em breve você receberá um retorno focado nos pontos destacados.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE PREVIEW DO WHATSAPP -->
+  <div class="modal-overlay" id="followupModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeFollowUpModal()"><i class="ti ti-x"></i></button>
+      
+      <div class="intro-eyebrow" style="margin-bottom: 8px;">Simulação Exclusiva · IA & CRM</div>
+      <h3 style="font-family: var(--font-display); font-size: 20px; color: #ffffff; margin-bottom: 8px;">Mensagem Pós-Questionário</h3>
+      <p style="font-size: 13px; color: var(--text-muted);">Esta é a mensagem personalizada gerada de acordo com o perfil de respostas do cliente no questionário:</p>
+
+      <div class="whatsapp-preview-card">
+        <div class="whatsapp-header">
+          <div class="whatsapp-avatar">JW</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px; color: #ffffff;">Jean Wally | Consultor de Investimentos</div>
+            <div style="font-size: 11px; color: #1D9E75;"><i class="ti ti-lock" style="font-size: 11px;"></i> Criptografado de ponta a ponta</div>
+          </div>
+        </div>
+        <div class="whatsapp-text" id="whatsappMessageContent">
+Olá! Aqui é o Jean Wally. Acabei de receber suas respostas na nossa pesquisa de satisfação confidencial.
+
+Analisando o seu feedback, notei que você prefere comunicações ágeis e pontuais, além de ter destacado pontos importantes sobre a volatilidade recente e a calibragem do portfólio para o cenário de 2026.
+
+Já estou preparando um resumo analítico da nossa carteira para garantir nosso alinhamento nas próximas semanas. Muito obrigado pela confiança e transparência de sempre! 🤝📈
+        </div>
+        <div class="whatsapp-time">Hoje, 14:32 · Lido ✓✓</div>
+      </div>
+
+      <button class="btn-apple-primary" style="width: 100%; justify-content: center; margin-top: 24px; padding: 14px;" onclick="closeFollowUpModal()">
+        <span>Entendido, fechar simulação</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    /* --- ESTADO DO SISTEMA --- */
+    let currentQ = 0;
+    let answers = {};
+    let selectedNPS = null;
+
+    /* --- CONFIGURAÇÃO DO GOOGLE SHEETS (APPS SCRIPT) --- */
+    // NOTA: Para ativar o envio real para a planilha, cole abaixo a URL do Web App gerada no seu Google Apps Script.
+    const GOOGLE_SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycby_RmmsVLBmvvx6FK54F5wYMKdicu32IrsbGWLOtn3wfBcgltqHZYezP7MxySef1B8q/exec"; 
+
+    /* --- PERGUNTAS UNIFICADAS --- */
+    const questions = [
+      {
+        cat: 'Identificação',
+        q: 'Qual é o seu nome e sobrenome?',
+        hint: 'Para personalizarmos a análise da sua carteira e atendimento.',
+        type: 'input',
+        placeholder: 'Digite seu nome completo...'
+      },
+      {
+        cat: 'Comunicação',
+        q: 'Como você prefere receber meu contato?',
+        hint: 'Escolha a forma que encaixa melhor na sua rotina.',
+        type: 'single',
+        opts: ['WhatsApp com texto', 'Áudio pelo WhatsApp', 'E-mail', 'Tanto faz — o que funcionar']
+      },
+      {
+        cat: 'Reuniões',
+        q: 'Com que frequência você gostaria de se reunir comigo?',
+        hint: 'Pense no acompanhamento ideal para o seu perfil.',
+        type: 'single',
+        opts: ['A cada mês', 'A cada trimestre', 'A cada semestre', 'Anualmente', 'Quando eu precisar']
+      },
+      {
+        cat: 'Planejamento',
+        q: 'Você tem um planejamento de aposentadoria definido?',
+        hint: 'Sem julgamento — só quero saber onde estamos.',
+        type: 'single',
+        opts: ['Sim, está bem estruturado', 'Tenho algo, mas é informal', 'Não tenho, mas quero montar', 'Ainda não é prioridade pra mim']
+      },
+      {
+        cat: 'Emocional',
+        q: 'Como você se sente em relação à volatilidade do mercado?',
+        hint: 'Pense nos últimos meses com mais instabilidade.',
+        type: 'single',
+        opts: ['Totalmente tranquilo — confio na estratégia', 'Um pouco ansioso, mas sei que é o processo', 'Fico preocupado e preciso de mais explicações', 'Ainda é difícil lidar — preciso de mais suporte']
+      },
+      {
+        cat: 'Hábitos',
+        q: 'Com que frequência você acompanha seus investimentos?',
+        hint: 'Seja honesto — não existe resposta certa aqui.',
+        type: 'single',
+        opts: ['Todo dia ou quase', 'Uma vez por semana', 'Uma vez por mês', 'Raramente — confio em você para isso']
+      },
+      {
+        cat: 'Cenário',
+        q: 'Qual é o seu sentimento em relação ao Brasil e às eleições de 2026?',
+        hint: 'Sua percepção importa para como calibramos a carteira.',
+        type: 'single',
+        opts: ['Otimista', 'Neutro', 'Preocupado', 'Muito pessimista']
+      },
+      {
+        cat: 'Avaliação',
+        q: 'No geral, o quanto você se sente seguro com o meu trabalho?',
+        hint: 'Seja direto — é isso que vai me ajudar a melhorar.',
+        type: 'scale'
+      },
+      {
+        cat: 'Sugestões',
+        q: 'Tem algo que eu poderia fazer diferente ou melhor?',
+        hint: 'Campo aberto — qualquer feedback é bem-vindo.',
+        type: 'text',
+        placeholder: 'Escreva à vontade sobre estratégia, atendimento ou relatórios...'
+      }
+    ];
+
+    function showScreen(id) {
+      const screens = ['screenIntro', 'screenQuiz', 'screenDone', 'screenNps', 'screenReferral', 'screenFim'];
+      screens.forEach(s => {
+        const el = document.getElementById(s);
+        if (s === id) {
+          el.classList.add('active');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          el.classList.remove('active');
+        }
+      });
+    }
+
+    function startQuiz() {
+      currentQ = 0;
+      answers = {};
+      selectedNPS = null;
+      showScreen('screenQuiz');
+      renderQ();
+    }
+
+    function renderQ() {
+      const q = questions[currentQ];
+      const total = questions.length;
+      const pct = Math.round(((currentQ) / total) * 100);
+
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('stepLabel').textContent = String(currentQ + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+      document.getElementById('catBadge').textContent = q.cat;
+      document.getElementById('qTitle').textContent = q.q;
+      document.getElementById('qHint').textContent = q.hint;
+
+      const btnBack = document.getElementById('btnBack');
+      btnBack.disabled = currentQ === 0;
+
+      const btnNext = document.getElementById('btnNext');
+      const isLast = currentQ === total - 1;
+      btnNext.innerHTML = isLast
+        ? '<span>Concluir Questionário</span><i class="ti ti-check"></i>'
+        : '<span>Próxima Pergunta</span><i class="ti ti-arrow-right"></i>';
+
+      const optsContainer = document.getElementById('qOptions');
+      optsContainer.innerHTML = '';
+
+      if (q.type === 'input') {
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.className = 'quiz-input';
+        inp.placeholder = q.placeholder || 'Digite aqui...';
+        inp.value = answers[currentQ] || '';
+        inp.oninput = () => {
+          answers[currentQ] = inp.value.trim();
+          btnNext.disabled = inp.value.trim() === '';
+        };
+        inp.onkeydown = (e) => {
+          if (e.key === 'Enter' && inp.value.trim() !== '') nextQ();
+        };
+        optsContainer.appendChild(inp);
+        btnNext.disabled = !answers[currentQ];
+        setTimeout(() => inp.focus(), 100);
+        return;
+
+      } else if (q.type === 'single') {
+        const listDiv = document.createElement('div');
+        listDiv.className = 'options-list';
+
+        q.opts.forEach((o, i) => {
+          const card = document.createElement('div');
+          card.className = 'option-card' + (answers[currentQ] === i ? ' selected' : '');
+          card.innerHTML = `
+            <div class="option-left">
+              <div class="option-radio"></div>
+              <span>${o}</span>
+            </div>
+            <i class="ti ti-arrow-right option-arrow"></i>
+          `;
+          card.onclick = () => {
+            answers[currentQ] = i;
+            listDiv.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            btnNext.disabled = false;
+          };
+          listDiv.appendChild(card);
+        });
+        optsContainer.appendChild(listDiv);
+
+      } else if (q.type === 'scale') {
+        const grid = document.createElement('div');
+        grid.className = 'scale-grid';
+
+        for (let n = 1; n <= 10; n++) {
+          const btn = document.createElement('button');
+          btn.className = 'scale-btn' + (answers[currentQ] === n ? ' selected' : '');
+          btn.textContent = n;
+          btn.onclick = () => {
+            answers[currentQ] = n;
+            grid.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            btnNext.disabled = false;
+          };
+          grid.appendChild(btn);
+        }
+        optsContainer.appendChild(grid);
+
+        const labels = document.createElement('div');
+        labels.className = 'scale-labels';
+        labels.innerHTML = '<span>1 — Nada seguro</span><span>10 — Totalmente seguro</span>';
+        optsContainer.appendChild(labels);
+
+      } else if (q.type === 'text') {
+        const ta = document.createElement('textarea');
+        ta.className = 'quiz-textarea';
+        ta.placeholder = q.placeholder || 'Escreva aqui...';
+        ta.value = answers[currentQ] || '';
+        ta.oninput = () => {
+          answers[currentQ] = ta.value;
+          btnNext.disabled = false;
+        };
+        optsContainer.appendChild(ta);
+        btnNext.disabled = false;
+        setTimeout(() => ta.focus(), 100);
+        return;
+      }
+
+      btnNext.disabled = answers[currentQ] === undefined || answers[currentQ] === '';
+    }
+
+    function nextQ() {
+      if (currentQ < questions.length - 1) {
+        currentQ++;
+        renderQ();
+      } else {
+        document.getElementById('progressFill').style.width = '100%';
+        showScreen('screenDone');
+      }
+    }
+
+    function prevQ() {
+      if (currentQ > 0) {
+        currentQ--;
+        renderQ();
+      }
+    }
+
+    function showNps() {
+      showScreen('screenNps');
+      const scale = document.getElementById('npsScale');
+      scale.innerHTML = '';
+
+      for (let n = 0; n <= 10; n++) {
+        const btn = document.createElement('button');
+        btn.className = 'scale-btn';
+        btn.textContent = n;
+        btn.onclick = () => {
+          selectedNPS = n;
+          scale.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+
+          const action = document.getElementById('npsAction');
+          const promoterBox = document.getElementById('npsPromoterBox');
+          const passiveBox = document.getElementById('npsPassiveBox');
+          const detractorBox = document.getElementById('npsDetractorBox');
+
+          action.style.display = 'block';
+          promoterBox.style.display = 'none';
+          passiveBox.style.display = 'none';
+          detractorBox.style.display = 'none';
+
+          if (n >= 9) {
+            promoterBox.style.display = 'block';
+          } else if (n >= 7) {
+            passiveBox.style.display = 'block';
+          } else {
+            detractorBox.style.display = 'block';
+          }
+
+          const actionBtnText = document.getElementById('submitBtnText');
+          const actionBtnIcon = document.getElementById('submitBtnIcon');
+          const footerBtnText = document.getElementById('npsFooterBtnText');
+          const footerBtnIcon = document.getElementById('npsFooterBtnIcon');
+          if (n >= 7) {
+            if (actionBtnText) actionBtnText.textContent = 'Continuar';
+            if (actionBtnIcon) actionBtnIcon.className = 'ti ti-arrow-right';
+            if (footerBtnText) footerBtnText.textContent = 'Continuar';
+            if (footerBtnIcon) footerBtnIcon.className = 'ti ti-arrow-right';
+          } else {
+            if (actionBtnText) actionBtnText.textContent = 'Concluir e Enviar';
+            if (actionBtnIcon) actionBtnIcon.className = 'ti ti-check';
+            if (footerBtnText) footerBtnText.textContent = 'Concluir e Enviar';
+            if (footerBtnIcon) footerBtnIcon.className = 'ti ti-check';
+          }
+        };
+        scale.appendChild(btn);
+      }
+    }
+
+    function toggleReferralBox(show) {
+      const box = document.getElementById('referralInputBox');
+      const optYes = document.getElementById('refOptYes');
+      const optNo = document.getElementById('refOptNo');
+      if (show) {
+        box.style.display = 'block';
+        optYes.classList.add('selected');
+        optNo.classList.remove('selected');
+        setTimeout(() => { document.getElementById('refName')?.focus(); }, 100);
+      } else {
+        box.style.display = 'none';
+        optNo.classList.add('selected');
+        optYes.classList.remove('selected');
+        document.getElementById('refName').value = '';
+        document.getElementById('refPhone').value = '';
+      }
+    }
+
+    function handleNpsNext() {
+      if (selectedNPS !== null && selectedNPS >= 7) {
+        showScreen('screenReferral');
+      } else {
+        submitAnswersToGoogleSheets();
+      }
+    }
+
+    /* --- FUNÇÃO PARA ENVIAR DADOS AO GOOGLE SHEETS --- */
+    function submitAnswersToGoogleSheets() {
+      const activeScreen = document.querySelector('.screen.active');
+      const btn = activeScreen ? activeScreen.querySelector('.btn-next, .btn-apple-primary') : null;
+      const textSpan = activeScreen ? activeScreen.querySelector('span[id^="submitBtnText"]') : document.getElementById('submitBtnText');
+      const icon = activeScreen ? activeScreen.querySelector('i[id^="submitBtnIcon"]') : document.getElementById('submitBtnIcon');
+      
+      if (textSpan) textSpan.textContent = 'Salvando sua pesquisa...';
+      if (icon) icon.className = 'ti ti-loader ti-spin';
+      if (btn) btn.disabled = true;
+
+      const getOptText = (qIdx) => {
+        const q = questions[qIdx];
+        const ans = answers[qIdx];
+        if (ans === undefined || ans === null) return 'Não respondido';
+        if (q.type === 'single') return q.opts[ans] || 'Não respondido';
+        return ans;
+      };
+
+      const promoterFeedback = document.getElementById('promoterFeedback')?.value || '';
+      const passiveFeedback = document.getElementById('passiveFeedback')?.value || '';
+      const authShare = document.getElementById('authShareCheckbox')?.checked ? 'Sim' : 'Não';
+      
+      const refName = document.getElementById('refName')?.value || '';
+      const refPhone = document.getElementById('refPhone')?.value || '';
+
+      const payload = {
+        data_hora: new Date().toLocaleString('pt-BR'),
+        nome_cliente: getOptText(0),
+        comunicacao: getOptText(1),
+        reunioes: getOptText(2),
+        planejamento: getOptText(3),
+        emocional: getOptText(4),
+        habitos: getOptText(5),
+        cenario: getOptText(6),
+        seguranca_nota: getOptText(7),
+        sugestoes: getOptText(8),
+        nps_nota: selectedNPS !== null ? selectedNPS : 'Não respondido',
+        depoimento_feedback: promoterFeedback || passiveFeedback || 'Sem comentário',
+        autorizou_divulgacao: selectedNPS >= 9 ? authShare : 'N/A',
+        indicacao_nome: refName,
+        indicacao_telefone: refPhone
+      };
+
+      console.log('Dados copilados para envio:', payload);
+
+      if (GOOGLE_SHEET_WEB_APP_URL && GOOGLE_SHEET_WEB_APP_URL !== "") {
+        fetch(GOOGLE_SHEET_WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(() => {
+          console.log('Enviado ao Google Sheets com sucesso!');
+          showScreen('screenFim');
+        })
+        .catch((err) => {
+          console.error('Erro ao enviar:', err);
+          showScreen('screenFim');
+        });
+      } else {
+        // Se a URL ainda não foi inserida no arquivo, avança normalmente para a tela final
+        setTimeout(() => {
+          showScreen('screenFim');
+        }, 600);
+      }
+    }
+
+    function openFollowUpModal() {
+      document.getElementById('followupModal').classList.add('active');
+    }
+
+    function closeFollowUpModal() {
+      document.getElementById('followupModal').classList.remove('active');
+    }
+
+    /* Navegação por Teclado */
+    window.addEventListener('keydown', (e) => {
+      const activeScreen = document.querySelector('.screen.active');
+      if (!activeScreen || activeScreen.id !== 'screenQuiz') return;
+
+      const q = questions[currentQ];
+
+      if (e.key === 'Enter' && !document.getElementById('btnNext').disabled) {
+        if (q.type !== 'text' || e.ctrlKey || e.metaKey) {
+          nextQ();
+        }
+      }
+
+      if (q.type === 'single') {
+        const num = parseInt(e.key);
+        if (!isNaN(num) && num >= 1 && num <= q.opts.length) {
+          answers[currentQ] = num - 1;
+          const cards = document.querySelectorAll('#qOptions .option-card');
+          cards.forEach((c, idx) => {
+            if (idx === num - 1) c.classList.add('selected');
+            else c.classList.remove('selected');
+          });
+          document.getElementById('btnNext').disabled = false;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
